@@ -1,4 +1,5 @@
 import mongoengine as me
+from datetime import datetime
 
 
 class Address(me.EmbeddedDocument):
@@ -20,5 +21,16 @@ class Customer(me.Document):
     afm = me.StringField(required=True, unique=True)
     phoneNumbers = me.ListField(me.EmbeddedDocumentField(PhoneNumber))
     address = me.EmbeddedDocumentField(Address)
-    meta = {"collection": "customers", "db_alias": "angular"}
-    # meta = {"collection": "customers", "db_alias": "codingfactory"} # εδώ είναι του καθηγητή
+    created_at = me.StringField()
+    updated_at = me.StringField()
+    meta = {"collection": "customers", "db_alias": "angular-fp"}
+
+    def save(self, *args, **kwargs):
+        if (self.created_at):
+            self.updated_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S') 
+        else:
+            self.created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            self.updated_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')   
+        
+        super(Customer, self).save(*args, **kwargs)
+
