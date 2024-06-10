@@ -3,17 +3,16 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from src.worker_model import Worker
 import json
 from mongoengine.errors import NotUniqueError
-
+# from flask import jsonify #δεν το αναγνωρίζει
 
 worker = Blueprint("worker", __name__)
-
 
 @worker.route("/create", methods=["POST"])
 # @jwt_required()
 def add_worker():
     try:
         data = request.get_json()
-        print(data)
+        print(data)        
         Worker(**data).save()
         return Response(json.dumps({"msg": "Worker added"}), status=201)
     except NotUniqueError:
@@ -59,6 +58,23 @@ def update_worker(afm):
         return Response(json.dumps({"msg": str(e)}), status=400)
 
 
+#
+@worker.route("/", methods=["GET"])
+# @jwt_required()
+def get_all_workers():    
+    try:        
+        workers = Worker.objects.exclude('id')            
+        workers_list = [worker.to_mongo().to_dict() for worker in workers]
+        if (workers_list):            
+            # print("jsonify(workers_list)", jsonify(workers_list))
+            # return jsonify(workers_list)
+            return Response(json.dumps(workers_list), status=200)   
+        return Response(json.dumps({"msg": "Collection Workers is empty"}), status=404)
+    except Exception as e:
+        print(e)
+        return Response(json.dumps({"msg": str(e)}), status=400)
+
+    
 # @worker.route("/check_duplicate_email/<string:email>", methods=["GET"])
 # def check_duplicate_email(email):
 #     try:

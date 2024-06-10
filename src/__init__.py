@@ -36,5 +36,5 @@ app.register_blueprint(
     user, url_prefix="/user"
 )  
 app.register_blueprint(
-  worker, url_prefix="/worker"
+    worker, url_prefix="/workers"
 )
