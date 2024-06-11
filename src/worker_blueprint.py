@@ -3,7 +3,6 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from src.worker_model import Worker
 import json
 from mongoengine.errors import NotUniqueError
-# from flask import jsonify #δεν το αναγνωρίζει
 
 worker = Blueprint("worker", __name__)
 
@@ -58,21 +57,72 @@ def update_worker(afm):
         return Response(json.dumps({"msg": str(e)}), status=400)
 
 
-#
+###
+
 @worker.route("/", methods=["GET"])
 # @jwt_required()
 def get_all_workers():    
     try:        
-        workers = Worker.objects.exclude('id')            
+        workers = Worker.objects.exclude('id')       
+        # workers = Worker.objects.all()        
         workers_list = [worker.to_mongo().to_dict() for worker in workers]
-        if (workers_list):            
-            # print("jsonify(workers_list)", jsonify(workers_list))
-            # return jsonify(workers_list)
-            return Response(json.dumps(workers_list), status=200)   
+        if (workers_list):     
+            return Response(json.dumps(workers_list), status=200)
+            #  return Response(json.dumps(workers_list, default=str), status=200)   
         return Response(json.dumps({"msg": "Collection Workers is empty"}), status=404)
     except Exception as e:
         print(e)
+        return Response(json.dumps({"msg": str(e)}), status=400)    
+
+
+@worker.route("/afm/<string:afm>", methods=["DELETE"])
+# @jwt_required()
+def delete_worker(afm):
+    try:
+        # data = request.get_json()
+        data = request.get_json        
+        Worker.objects(afm=afm).delete()
+        return Response(json.dumps({"msg": "Worker deleted successfully!"}), status=200)
+    except Exception as e:
+        print(e)
         return Response(json.dumps({"msg": str(e)}), status=400)
+    
+
+    # data = request.get_json()
+    # print("def delete_worker, data: ", data)    
+    # print("def delete_worker, AFM:", afm) 
+    # try:       
+    #     result = Worker.delete_one({"afm": afm})
+    #     print(result.deleted_count)
+    #     return Response(json.dumps({"msg": "Worker was deleted successfully"}), status=200)    
+    # except Exception as e:
+    #     print("from exception:", e)
+    #     return Response(json.dumps({"msg": str(e)}), status=400)
+
+# # @worker.route("/delete/<string:worker_id>", methods=["DELETE"])
+# @worker.route("/delete/afm/<string:afm>", methods=['GET','DELETE', 'POST'])
+# # @jwt_required()
+# def delete_worker(afm):
+#     data = request.get_json()
+#     print("def delete_worker, data: ", data)    
+#     print("def delete_worker, AFM:", afm) 
+#     try:
+#         # data = request.get_json()
+#         # print(data)        
+#         # Worker(**data).delete()
+#         # Worker.objects(_id=worker_id).delete_one(**data)
+#         # Worker.objects(afm=afm).delete_one(**data)
+#         # Worker.delete_one(afm=afm)
+#         result = Worker.delete_one({"afm": afm})
+#         print(result.deleted_count)
+#         return Response(json.dumps({"msg": "Worker deleted successfully"}), status=200)    
+#     except Exception as e:
+#         print("from exception:", e)
+#         return Response(json.dumps({"msg": str(e)}), status=400)
+    
+
+
+
 
     
 # @worker.route("/check_duplicate_email/<string:email>", methods=["GET"])
