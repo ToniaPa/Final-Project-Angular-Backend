@@ -49,7 +49,8 @@ def get_worker_by_afm(afm):
 @worker.route("/afm/<string:afm>", methods=["PATCH"])
 def update_worker(afm):
     try:
-        data = request.get_json()
+        # data = request.get_json() # = problem!
+        data = request.get_json
         Worker.objects(afm=afm).update_one(**data)
         return Response(json.dumps({"msg": "Worker updated"}), status=200)
     except Exception as e:
@@ -79,9 +80,9 @@ def get_all_workers():
 # @jwt_required()
 def delete_worker(afm):
     try:
-        # data = request.get_json()
+        # data = request.get_json() # = problem!
         data = request.get_json        
-        Worker.objects(afm=afm).delete()
+        Worker.objects(afm=afm).delete()        
         return Response(json.dumps({"msg": "Worker deleted successfully!"}), status=200)
     except Exception as e:
         print(e)
@@ -120,9 +121,6 @@ def delete_worker(afm):
 #         print("from exception:", e)
 #         return Response(json.dumps({"msg": str(e)}), status=400)
     
-
-
-
 
     
 # @worker.route("/check_duplicate_email/<string:email>", methods=["GET"])
