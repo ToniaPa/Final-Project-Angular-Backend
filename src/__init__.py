@@ -5,6 +5,7 @@ from mongoengine import connect
 from src.user_blueprint import user
 from src.worker_blueprint import worker
 from src.client_blueprint import client
+from src.timesheet_blueprint import timesheet
 
 # Flask, είναι WEB Framework
 app = Flask(__name__)
@@ -32,3 +33,4 @@ cors = CORS(
 app.register_blueprint(user, url_prefix="/user")
 app.register_blueprint(worker, url_prefix="/workers")
 app.register_blueprint(client, url_prefix="/clients")
+app.register_blueprint(timesheet, url_prefix="/timesheets")
