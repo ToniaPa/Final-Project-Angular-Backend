@@ -25,6 +25,7 @@ from datetime import datetime
 
 #         super(Timesheet, self).save(*args, **kwargs)
 
+
 class HourRecord(me.EmbeddedDocument):
     hour = me.IntField(required=True)
     minute = me.IntField(required=True)
