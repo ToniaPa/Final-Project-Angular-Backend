@@ -3,6 +3,7 @@ from datetime import datetime
 
 class Timesheet(me.Document):    
     dateOfWork = me.DateField(required=True, unique=True)
+    # dateOfWork = me.StringField(required=True, unique=True)
     workerGivenName = me.StringField(required=True)
     workerSurName = me.StringField(required=True)    
     workerAfm = me.StringField(required=True, unique=True)
@@ -11,6 +12,8 @@ class Timesheet(me.Document):
     typeOfWork = me.StringField(required=True, unique=True)    
     hourFrom = me.DateTimeField(required=True)
     hourTo = me.DateTimeField(required=True)    
+    # hourFrom = me.StringField(required=True)
+    # hourTo = me.StringField(required=True)    
     additionalInfo = me.StringField()
     created_at = me.StringField()
     updated_at = me.StringField()
