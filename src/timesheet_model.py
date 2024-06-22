@@ -1,20 +1,18 @@
 import mongoengine as me
 from datetime import datetime
 
-class Timesheet(me.Document):    
-    dateOfWork = me.DateField(required=True, unique=True)
-    # dateOfWork = me.StringField(required=True, unique=True)
+class Timesheet(me.Document):
+    dateOfWork = me.DateField(required=True)
+    # _auto_id_field=True
+    # dateOfWork = me.StringField(required=True)
     workerGivenName = me.StringField(required=True)
-    workerSurName = me.StringField(required=True)    
-    workerAfm = me.StringField(required=True, unique=True)
-    clientBrandName = me.StringField(required=True)    
-    clientAfm = me.StringField(required=True, unique=True)    
-    typeOfWork = me.StringField(required=True, unique=True)    
-    hourFrom = me.DateTimeField(required=True)
-    hourTo = me.DateTimeField(required=True)    
-    # hourFrom = me.StringField(required=True)
-    # hourTo = me.StringField(required=True)    
-    additionalInfo = me.StringField()
+    workerSurName = me.StringField(required=True)  
+    workerAfm = me.StringField(required=True)
+    clientBrandName = me.StringField(required=True)       
+    clientAfm = me.StringField(required=True)
+    typeOfWork = me.StringField(required=True)   
+    hourFrom = me.StringField(required=True)    
+    hourTo = me.StringField(required=True)     
     created_at = me.StringField()
     updated_at = me.StringField()
     meta = {"collection": "timesheets", "db_alias": "angular-fp"}
@@ -36,10 +34,10 @@ class Timesheet(me.Document):
 # class WorkerClientWorkHours(me.EmbeddedDocument):
 #     workerGivenName = me.StringField(required=True)
 #     workerSurName = me.StringField(required=True)    
-#     workerAfm = me.StringField(required=True, unique=True)
+#     workerAfm = me.StringField(required=True)
 #     clientBrandName = me.StringField(required=True)    
-#     clientAfm = me.StringField(required=True, unique=True)    
-#     typeOfWork = me.StringField(required=True, unique=True)
+#     clientAfm = me.StringField(required=True)    
+#     typeOfWork = me.StringField(required=True)
 #     hourFrom = me.EmbeddedDocumentField(HourRecord)
 #     hourTo = me.EmbeddedDocumentField(HourRecord)   
 #     additionalInfo = me.StringField()
