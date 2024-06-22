@@ -2,6 +2,7 @@ import mongoengine as me
 from datetime import datetime
 
 class Timesheet(me.Document):
+    _id:me.ObjectIdField
     dateOfWork = me.DateField(required=True)
     # _auto_id_field=True
     # dateOfWork = me.StringField(required=True)

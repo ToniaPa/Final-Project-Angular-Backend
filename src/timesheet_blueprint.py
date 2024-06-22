@@ -42,9 +42,10 @@ def get_all_timesheets():
 # @jwt_required()
 def delete_timesheet_by_id(id):
     try:
+        print(id)
         # data = request.get_json() # = problem for delete!
         data = request.get_json        
-        Timesheet.objects(_id=ObjectId(id)).delete()        
+        Timesheet.objects(pk=id).delete()        
         return Response(json.dumps({"msg": "Timesheet deleted successfully!"}), status=200)
     except Exception as e:
         print(e)
